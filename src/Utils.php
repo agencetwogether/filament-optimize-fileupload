@@ -10,7 +10,7 @@ if (! function_exists('generateFilename_filament_optimize')) {
         $extension = strrpos($filename, '.');
 
         if ($extension !== false) {
-            return substr($filename, 0, $extension + 1) . $format;
+            return substr($filename, 0, $extension + 1).$format;
         }
 
         return $filename;

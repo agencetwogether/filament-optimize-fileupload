@@ -34,9 +34,9 @@ class FilamentOptimizeFileuploadServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        FileUpload::macro('optimize', function (string | Closure | null $extension = null, string | Closure | null $quality = null): static {
+        FileUpload::macro('optimize', function (string|Closure|null $format = null, string|Closure|null $quality = null): static {
 
-            $this->saveUploadedFileUsing(static function (FileUpload $component, TemporaryUploadedFile $file) use ($extension, $quality): ?string {
+            $this->saveUploadedFileUsing(static function (FileUpload $component, TemporaryUploadedFile $file) use ($format, $quality): ?string {
                 try {
                     if (! $file->exists()) {
                         return null;
@@ -45,50 +45,51 @@ class FilamentOptimizeFileuploadServiceProvider extends PackageServiceProvider
                     return null;
                 }
 
-                ////////////Code Added
+                // //////////Code Added
+
                 if (
                     str_contains($file->getMimeType(), 'image')
-                    && filled($extension)
+                    && filled($format)
                 ) {
 
-                    $extension = $component->evaluate($extension);
+                    $format = $component->evaluate($format);
                     $quality = $component->evaluate($quality);
 
-                    $desiredFormat = Format::tryCreate($extension);
+                    $desiredFormat = Format::tryCreate($format);
 
-                    if(filled($desiredFormat)){
+                    if (filled($desiredFormat)) {
 
                         $filename = $component->getUploadedFileNameForStorage($file);
 
-                        $manager = ImageManager::withDriver(new Driver());
+                        $manager = ImageManager::withDriver(new Driver);
 
                         $image = $manager->read($file);
 
-                        $generatedExtension = $desiredFormat->fileExtension()->value;
+                        $extension = $desiredFormat->fileExtension()->value;
 
-                        if(filled($quality)){
-                            $encoder = $desiredFormat->encoder(quality: (int) $quality);
-                        }else{
+                        if (filled($quality) && is_numeric($quality)) {
+                            $encoder = $desiredFormat->encoder(quality: intval($quality));
+                        } else {
                             $encoder = $desiredFormat->encoder();
                         }
 
                         $encodedFile = $image->encode($encoder);
 
-                        $filename = generateFilename_filament_optimize($filename, $generatedExtension);
+                        $filename = generateFilename_filament_optimize($filename, $extension);
 
                         Storage::disk($component->getDiskName())->put(
-                            $component->getDirectory() . '/' . $filename,
+                            $component->getDirectory().'/'.$filename,
                             $encodedFile
                         );
 
-                        return $component->getDirectory() . '/' . $filename;
+                        return $component->getDirectory().'/'.$filename;
 
-                    }else{
-                        throw new EncoderException('No encoder found for file extension (' . $extension . ').');
+                    } else {
+                        throw new EncoderException('No encoder found for file extension ('.$format.').');
                     }
 
                 }
-                ////////////
+                // //////////
 
                 if (
                     $component->shouldMoveFiles() &&

@@ -1,10 +1,12 @@
 {
     "name": "agencetwogether/filament-optimize-fileupload",
-    "description": "This is my package filament-optimize-fileupload",
+    "description": "Save your image in another format with eventually a custom quality compression directly in FileUpload component",
     "keywords": [
         "agencetwogether",
         "laravel",
-        "filament-optimize-fileupload"
+        "filament",
+        "image manipulation",
+        "intervention image"
     ],
     "homepage": "https://github.com/agencetwogether/filament-optimize-fileupload",
     "support": {
@@ -21,7 +23,7 @@
     ],
     "require": {
         "php": "^8.2",
-        "filament/filament": "^4.0",
+        "filament/forms": "^4.0",
         "intervention/image": "^3.11",
         "spatie/laravel-package-tools": "^1.15.0"
     },

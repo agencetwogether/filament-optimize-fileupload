@@ -1,0 +1,64 @@
+{
+    "name": "agencetwogether/filament-optimize-fileupload",
+    "description": "This is my package filament-optimize-fileupload",
+    "keywords": [
+        "agencetwogether",
+        "laravel",
+        "filament-optimize-fileupload"
+    ],
+    "homepage": "https://github.com/agencetwogether/filament-optimize-fileupload",
+    "support": {
+        "issues": "https://github.com/agencetwogether/filament-optimize-fileupload/issues",
+        "source": "https://github.com/agencetwogether/filament-optimize-fileupload"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Agence Twogether",
+            "email": "contact@agencetwogether.fr",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "filament/filament": "^4.0",
+        "intervention/image": "^3.11",
+        "spatie/laravel-package-tools": "^1.15.0"
+    },
+    "require-dev": {
+        "nunomaduro/collision": "^8.0",
+        "orchestra/testbench": "^9.0|^10.0",
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-arch": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Agencetwogether\\FilamentOptimizeFileupload\\": "src/"
+        },
+        "files": [
+            "src/Utils.php"
+        ]
+    },
+    "scripts": {
+        "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Agencetwogether\\FilamentOptimizeFileupload\\FilamentOptimizeFileuploadServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
